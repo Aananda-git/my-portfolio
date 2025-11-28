@@ -44,8 +44,8 @@ export default function About() {
               className="flex-shrink-0 relative"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent rounded-full blur-md opacity-20 animate-pulse"></div>
-              <Avatar className="w-48 h-48 border-4 border-background shadow-2xl relative z-10">
-                <AvatarImage src="/profile.jpg" alt="Aananda" className="object-cover" />
+              <Avatar className="w-60 h-60 border-4 border-background shadow-2xl relative z-10">
+                <AvatarImage src="/my_pic.jpg" alt="Aananda" className="object-contain" />
                 <AvatarFallback className="text-2xl bg-gradient-to-r from-primary to-accent text-primary-foreground">
                   AB
                 </AvatarFallback>
