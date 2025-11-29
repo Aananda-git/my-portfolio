@@ -1,6 +1,6 @@
 "use client";
 
-import { FaGithub, FaLinkedin, FaEnvelope, FaFileDownload } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaEnvelope, FaFileDownload, FaMapMarkerAlt } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -15,9 +15,9 @@ export default function Contact() {
   const contactMethods = [
     {
       icon: FaEnvelope,
-      href: "mailto:aanandabhusal@gmail.com",
+      href: "https://mail.google.com/mail/?view=cm&fs=1&to=aanandabhusal199@gmail.com",
       label: "Email",
-      text: "aanandabhusal@gmail.com",
+      text: "aanandabhusal199@gmail.com",
       description: "Send me an email anytime"
     },
     {
@@ -34,11 +34,21 @@ export default function Contact() {
       text: "Aananda Bhusal",
       description: "Let's connect professionally"
     },
+    {
+      icon: FaMapMarkerAlt,
+      href: "#",
+      label: "Location",
+      text: "Amsterdam, Netherlands",
+      description: "Based in Europe"
+    }
   ];
 
   return (
-    <section id="contact" className="py-20 bg-card/30">
-      <div className="max-w-4xl mx-auto px-6">
+    <section id="contact" className="py-24 bg-gradient-to-b from-card/20 to-background relative overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-background to-transparent" />
+      
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 30 }}
@@ -49,41 +59,48 @@ export default function Contact() {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 mb-2 justify-center w-full"
+            className="text-center mb-16"
           >
-            <div className="w-4 h-0.5 bg-primary rounded-full"></div>
-            <span className="text-primary font-medium text-sm uppercase tracking-wider">Connect</span>
-            <div className="w-4 h-0.5 bg-primary rounded-full"></div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-3 mb-4"
+            >
+              <div className="w-8 h-0.5 bg-primary rounded-full" />
+              <span className="text-primary font-semibold text-sm uppercase tracking-widest">Get In Touch</span>
+              <div className="w-8 h-0.5 bg-primary rounded-full" />
+            </motion.div>
+            
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              Let&apos;s Work Together
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              I&apos;m always excited to discuss new opportunities, creative projects, or innovative ideas. 
+              Let&apos;s create something amazing together!
+            </p>
           </motion.div>
-          
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-center">
-            Let&apos;s Work Together
-          </h2>
-          <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto text-lg">
-            I&apos;m always excited to discuss new opportunities, creative projects, or innovative ideas. 
-            Let&apos;s create something amazing together!
-          </p>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {contactMethods.map((method, index) => (
               <motion.div
                 key={method.label}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ delay: 0.3 + index * 0.1 }}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -5 }}
                 className="text-center"
               >
-                <Link href={method.href} target="_blank" className="block">
-                  <Card className="card-gradient border-border shadow-lg hover:shadow-xl transition-all duration-300 p-6 group hover:border-primary/50">
+                <Link href={method.href} target={method.href !== "#" ? "_blank" : undefined} className="block">
+                  <Card className="card-gradient border-border/50 shadow-xl hover:shadow-2xl transition-all duration-300 p-6 group hover:border-primary/50 h-full">
                     <div className="flex justify-center mb-4">
-                      <div className="w-12 h-12 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <method.icon className="text-primary-foreground text-xl" />
+                      <div className="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <method.icon className="text-primary-foreground text-2xl" />
                       </div>
                     </div>
-                    <h3 className="font-semibold text-foreground mb-2">{method.label}</h3>
-                    <p className="text-primary font-medium text-sm mb-1">{method.text}</p>
-                    <p className="text-muted-foreground text-xs">{method.description}</p>
+                    <h3 className="font-bold text-foreground mb-3 text-lg">{method.label}</h3>
+                    <p className="text-primary font-semibold text-base mb-2">{method.text}</p>
+                    <p className="text-muted-foreground text-sm">{method.description}</p>
                   </Card>
                 </Link>
               </motion.div>
@@ -91,47 +108,54 @@ export default function Contact() {
           </div>
 
           <motion.div 
-            className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+            className="text-center bg-gradient-to-r from-primary/5 to-accent/5 rounded-3xl p-12 border border-primary/20 backdrop-blur-sm"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.6 }}
           >
-            <Link href="mailto:aanandabhusal@gmail.com">
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 px-8 py-3 text-lg shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <FaEnvelope className="mr-3" />
-                Send Message
-              </Button>
-            </Link>
+            <h3 className="text-2xl font-bold text-foreground mb-6">Ready to Start Your Project?</h3>
+            <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
+              Whether you&apos;re looking to build a new application, improve an existing one, or just want to chat about technology, I&apos;d love to hear from you.
+            </p>
             
-            <Link href="/Aananda_Resume.pdf" download>
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-3 text-lg transition-all duration-300"
-              >
-                <FaFileDownload className="mr-3" />
-                Download CV
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <Link href="https://mail.google.com/mail/?view=cm&fs=1&to=aanandabhusal199@gmail.com">
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-primary to-accent text-primary-foreground hover:shadow-2xl transform hover:scale-105 px-10 py-6 text-lg font-semibold rounded-2xl shadow-xl transition-all duration-300"
+                >
+                  <FaEnvelope className="mr-3 text-xl" />
+                  Send Message
+                </Button>
+              </Link>
+              
+              <Link href="/Resume_Aananda.pdf" download>
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground px-10 py-6 text-lg font-semibold rounded-2xl transition-all duration-300 hover:scale-105"
+                >
+                  <FaFileDownload className="mr-3 text-xl" />
+                  Download CV
+                </Button>
+              </Link>
+            </div>
           </motion.div>
 
           <motion.div 
-            className="text-center mt-12 pt-8 border-t border-border"
+            className="text-center mt-16 pt-12 border-t border-border/30"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ delay: 0.8 }}
           >
-            <p className="text-muted-foreground mb-6">
-              Prefer a different way to connect? I&apos;m open to all possibilities!
+            <p className="text-muted-foreground text-lg mb-8 font-medium">
+              Connect with me on social platforms
             </p>
-            <div className="flex justify-center gap-4">
-              {contactMethods.map((social, index) => (
+            <div className="flex justify-center gap-6">
+              {contactMethods.slice(0, 3).map((social, index) => (
                 <motion.div
                   key={social.label}
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
@@ -141,10 +165,10 @@ export default function Contact() {
                     <Button
                       variant="outline"
                       size="icon"
-                      className="w-12 h-12 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-md hover:shadow-lg"
+                      className="w-16 h-16 border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 shadow-lg hover:shadow-xl rounded-2xl"
                       aria-label={social.label}
                     >
-                      <social.icon className="text-xl" />
+                      <social.icon className="text-2xl" />
                     </Button>
                   </Link>
                 </motion.div>
