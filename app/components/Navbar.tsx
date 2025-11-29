@@ -32,6 +32,7 @@ export default function Navbar() {
     const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     
     const initialTheme = savedTheme === "dark" || (!savedTheme && systemPrefersDark);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDark(initialTheme);
     
     if (initialTheme) {
@@ -89,43 +90,36 @@ export default function Navbar() {
         animate={{ y: 0 }}
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
           scrolled 
-            ? "bg-background/95 backdrop-blur-md border-b border-border shadow-lg" 
-            : "bg-background/80 backdrop-blur-md border-b border-border/50"
+            ? "glass-effect border-b border-border/20 shadow-xl" 
+            : "bg-transparent border-b border-transparent"
         }`}
       >
-        <div className="max-w-6xl mx-auto flex items-center justify-between p-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between p-4 lg:p-6">
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link 
               href="#hero" 
-              className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+              className="text-2xl font-bold text-gradient"
               onClick={() => handleNavClick("#hero")}
             >
               Aananda.dev
             </Link>
           </motion.div>
 
-          <NavigationMenu className="hidden md:block">
-            <NavigationMenuList className="flex gap-8">
+          <NavigationMenu className="hidden lg:block">
+            <NavigationMenuList className="flex gap-2 bg-background/80 backdrop-blur-md rounded-full p-1 border border-border/50 shadow-lg">
               {navItems.map((item) => (
                 <NavigationMenuItem key={item.name}>
                   <NavigationMenuLink asChild>
                     <Button
                       variant="ghost"
-                      className={`relative px-3 py-2 transition-all duration-300 font-medium ${
+                      className={`relative px-6 py-2 transition-all duration-300 font-medium rounded-full ${
                         activeSection === item.href.substring(1)
-                          ? "text-primary"
-                          : "text-muted-foreground hover:text-foreground"
+                          ? "bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-lg"
+                          : "text-muted-foreground hover:text-foreground hover:bg-accent/10"
                       }`}
                       onClick={() => handleNavClick(item.href)}
                     >
                       {item.name}
-                      {activeSection === item.href.substring(1) && (
-                        <motion.div
-                          layoutId="activeSection"
-                          className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary to-accent rounded-full"
-                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        />
-                      )}
                     </Button>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -133,23 +127,24 @@ export default function Navbar() {
             </NavigationMenuList>
           </NavigationMenu>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <Button
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
-              className="relative w-10 h-10 rounded-full hover:bg-primary/10 transition-colors"
+              className="relative w-12 h-12 rounded-full hover:bg-primary/10 transition-all duration-300 group border border-border/50 shadow-lg"
               aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
             >
               <motion.div
                 initial={false}
-                animate={{ rotate: dark ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
+                animate={{ rotate: dark ? 180 : 0, scale: [1, 1.2, 1] }}
+                transition={{ duration: 0.5 }}
+                className="relative w-6 h-6"
               >
                 {dark ? (
-                  <FaSun className="text-amber-500 text-lg" />
+                  <FaSun className="text-amber-400 text-xl group-hover:text-amber-300" />
                 ) : (
-                  <FaMoon className="text-purple-600 text-lg" />
+                  <FaMoon className="text-purple-600 text-xl group-hover:text-purple-500" />
                 )}
               </motion.div>
             </Button>
@@ -157,18 +152,19 @@ export default function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden w-10 h-10"
+              className="lg:hidden w-12 h-12 rounded-full border border-border/50 shadow-lg"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
               <motion.div
                 animate={{ rotate: mobileMenuOpen ? 90 : 0 }}
                 transition={{ duration: 0.2 }}
+                className="text-lg"
               >
                 {mobileMenuOpen ? (
-                  <FaTimes className="text-lg" />
+                  <FaTimes className="text-foreground" />
                 ) : (
-                  <FaBars className="text-lg" />
+                  <FaBars className="text-foreground" />
                 )}
               </motion.div>
             </Button>
@@ -182,9 +178,9 @@ export default function Navbar() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden bg-background/95 backdrop-blur-md border-t border-border"
+              className="lg:hidden glass-effect border-t border-border/20 backdrop-blur-lg"
             >
-              <div className="px-4 py-6 space-y-4">
+              <div className="px-6 py-8 space-y-3">
                 {navItems.map((item, index) => (
                   <motion.div
                     key={item.name}
@@ -194,9 +190,9 @@ export default function Navbar() {
                   >
                     <Button
                       variant="ghost"
-                      className={`w-full justify-start text-lg p-4 transition-all duration-300 ${
+                      className={`w-full justify-start text-lg p-4 transition-all duration-300 rounded-xl ${
                         activeSection === item.href.substring(1)
-                          ? "text-primary bg-primary/10 border-l-4 border-primary"
+                          ? "bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-lg"
                           : "text-muted-foreground hover:text-foreground hover:bg-accent/10"
                       }`}
                       onClick={() => handleNavClick(item.href)}
@@ -210,10 +206,10 @@ export default function Navbar() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: navItems.length * 0.1 }}
-                  className="pt-4 border-t border-border"
+                  className="pt-6 border-t border-border/30"
                 >
                   <Button
-                    className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 transition-opacity"
+                    className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 transition-all duration-300 py-3 text-lg rounded-xl shadow-lg hover:shadow-xl"
                     onClick={() => handleNavClick("#contact")}
                   >
                     Get In Touch
@@ -231,7 +227,7 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden"
+            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden"
             onClick={() => setMobileMenuOpen(false)}
           />
         )}
